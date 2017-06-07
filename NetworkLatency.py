@@ -15,7 +15,7 @@ def get_latency(hostname):
 				if numbers.isdigit():
 					templist.append(numbers)
 			string = ''.join(templist)
-			print(string)
+			return string
 		elif platform.system() == "Linux":
 			pass
 		else:
@@ -26,5 +26,4 @@ def get_latency(hostname):
 
 
 
-get_latency("mail.ru")
-
+print(get_latency("8.8.8.8"))
