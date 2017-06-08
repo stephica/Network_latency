@@ -1,9 +1,12 @@
-import os, platform, subprocess, re
+import platform, subprocess, re
+
+hostname  = "8.8.8.8" 
+threshold = ""
 
 def get_latency(hostname):
 	try:
 		if platform.system() == "Windows":
-			cmd = subprocess.Popen('ping -n 4 {}'.format(hostname), shell=True, stdout=subprocess.PIPE)
+			cmd = subprocess.Popen('ping -n 1 {}'.format(hostname), shell=True, stdout=subprocess.PIPE)
 			string = str(cmd.stdout.read())
 			list1 = string.split(',')
 			egex = re.compile(".*(Average).*")
@@ -24,10 +27,13 @@ def get_latency(hostname):
 			string = string.split("/")
 			return ''.join(string[5])
 		else:
-			print("OS isn't recognized")
+			return "OS isn't recognized"
 	except:
 		return False
 
+def check_threshold(hostname):
+	try:
+		if int(get_latency(hostname)) >= int(threshold):
 
 
 
