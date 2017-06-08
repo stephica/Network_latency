@@ -17,7 +17,10 @@ def get_latency(hostname):
 			string = ''.join(templist)
 			return string
 		elif platform.system() == "Linux":
-			pass
+			cmd = subprocess.Popen('ping -c 1 {}'.format(hostname), shell=True, stdout=subprocess.PIPE)
+			string = str(cmd.stdout.read())
+			list1 = string.split(',')
+			print(list1[3])	
 		else:
 			print("OS isn't recognized")
 	except:
