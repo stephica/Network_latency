@@ -20,7 +20,9 @@ def get_latency(hostname):
 			cmd = subprocess.Popen('ping -c 1 {}'.format(hostname), shell=True, stdout=subprocess.PIPE)
 			string = str(cmd.stdout.read())
 			list1 = string.split(',')
-			print(list1[3])	
+			string = ''.join(list1[3])
+			string = string.split("/")
+			return ''.join(string[5])
 		else:
 			print("OS isn't recognized")
 	except:
