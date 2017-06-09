@@ -3,7 +3,10 @@ import platform, subprocess, re
 hostname  = "8.8.8.8"
 #Tresshold in ms
 threshold = "4"
-
+def OS():
+	if platform.system() == "Windows" or platform.system() == "Linux":
+		print("OS isn't supported")
+		
 def get_latency(hostname):
 	try:
 		if platform.system() == "Windows":
