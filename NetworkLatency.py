@@ -1,12 +1,13 @@
-import platform, subprocess, re
+import platform, subprocess, re, sys
 
 hostname  = "8.8.8.8"
-#Tresshold in ms
+#Threshold in ms
 threshold = "4"
-def OS():
-	if platform.system() == "Windows" or platform.system() == "Linux":
-		print("OS isn't supported")
-		
+
+def check_os():
+	if not(platform.system() == "Windows" or platform.system() == "Linux"):
+		sys.exit("OS isn't supported")
+
 def get_latency(hostname):
 	try:
 		if platform.system() == "Windows":
@@ -16,7 +17,6 @@ def get_latency(hostname):
 			egex = re.compile(".*(Average).*")
 			list1 = list(filter(egex.search, list1))
 			string = list1[0]
-			out_number = ''
 			templist = []
 			for numbers in string:
 				if numbers.isdigit():
@@ -30,8 +30,6 @@ def get_latency(hostname):
 			string = ''.join(list1[3])
 			string = string.split("/")
 			return ''.join(string[5])
-		else:
-			return "OS isn't recognized"
 	except:
 		return "UNVISIBLE"
 
@@ -50,6 +48,14 @@ def check_threshold(hostname):
 	except:
 		return "Problem is detected"
 
+check_os()
+
+if len(sys.argv) > 1:
+	print("Hostname is assigned to: {}".format(sys.argv[1]))
+	hostname = sys.argv[1]
+else:
+	print("Please use syntax: python {} hostname".format(sys.argv[0]))
+	sys.exit()
 
 threshold_value = check_threshold(hostname)
 if threshold_value == "1":
@@ -57,6 +63,6 @@ if threshold_value == "1":
 elif threshold_value == "2":
 	print("Everying is OK")
 elif threshold_value == "UNVISIBLE":
-	print("There is no connection by ICMP")
+	print("The {} is not Pingable".format(hostname))
 elif threshold_value == "Problem is detected":
-	print("Seems OS isn't supported")
+	print("Problem is detected")
