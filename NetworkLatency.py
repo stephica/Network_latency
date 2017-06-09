@@ -1,7 +1,8 @@
 import platform, subprocess, re
 
-hostname  = "8.8.8.8" 
-threshold = ""
+hostname  = "8.8.7.7"
+#Tresshold in ms
+threshold = "400"
 
 def get_latency(hostname):
 	try:
@@ -29,12 +30,28 @@ def get_latency(hostname):
 		else:
 			return "OS isn't recognized"
 	except:
-		return False
+		return "no ping"
 
 def check_threshold(hostname):
 	try:
-		if int(get_latency(hostname)) >= int(threshold):
+		latency = get_latency(hostname)
+		try:
+			if int(latency) >= int(threshold):
+				return 'ALARM'
+			elif int(latency) < int(threshold):
+				return 'NORMAL'
+		except:
+			pass
+		if latency == 'no ping':
+			return 'UNVISIBLE'
+	except:
+		return "problem is detected"
 
 
-
-print(get_latency("8.8.8.8"))
+string1 = check_threshold(hostname)
+if check_threshold(hostname) == "ALARM":
+	print("AHAVORA")
+elif check_threshold(hostname) == "NORMAL":
+	print("NORMALA")
+elif check_threshold(hostname) == "UNVISIBLE":
+	print("NO PING")
