@@ -1,9 +1,16 @@
+<html>
+<head>
 # Network_latency
-usage: NetworkLatency.py [-h] [-H HOST] [-t TIME]
+</head>
+<body>
 
-Script to do changes in network based on latency calculation
+usage: NetworkLatency.py [-h] [-H HOST] [-t TIME] <br>
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -H HOST, --host HOST  Host to test
-  -t TIME, --time TIME  Threshold time in milliseconds for average latency
+Script to do changes in network based on latency calculation <br>
+
+optional arguments: <br>
+  -h, --help            show this help message and exit <br>
+  -H HOST, --host HOST  Host to test <br>
+  -t TIME, --time TIME  Threshold time in milliseconds for average latency <br>
+  </body>
+</html>
