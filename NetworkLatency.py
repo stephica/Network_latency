@@ -1,12 +1,16 @@
-import platform, subprocess, re, sys
+#!/usr/bin/python
+import platform, subprocess, re, sys, argparse
 
-hostname  = "8.8.8.8"
+# hostname  = "8.8.8.8"
 #Threshold in ms
 threshold = "4"
+
+
 
 def check_os():
 	if not(platform.system() == "Windows" or platform.system() == "Linux"):
 		sys.exit("OS isn't supported")
+
 
 def get_latency(hostname):
 	try:
@@ -48,14 +52,22 @@ def check_threshold(hostname):
 	except:
 		return "Problem is detected"
 
-check_os()
 
-if len(sys.argv) > 1:
-	print("Hostname is assigned to: {}".format(sys.argv[1]))
-	hostname = sys.argv[1]
-else:
-	print("Please use syntax: python {} hostname".format(sys.argv[0]))
-	sys.exit()
+if __name__ == "__main__":
+	check_os
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-n", "--host", help="host to test")
+	parser.add_argument("-t", "--time", help="treshold time in miliseconds for average latency")
+	args = parser.parse_args()
+	if args.host:
+		hostname = args.host
+	else:
+		sys.exit("Please provide host to test for more informatiion type filename -h")
+	if args.time:
+		threshold = args.time
+	else:
+		sys.exit("Please provide average latency threshold in milideconds for more informatiion type filename -h")
+
 
 threshold_value = check_threshold(hostname)
 if threshold_value == "1":
