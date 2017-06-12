@@ -1,16 +1,9 @@
 #!/usr/bin/python
 import platform, subprocess, re, sys, argparse
 
-# hostname  = "8.8.8.8"
-#Threshold in ms
-threshold = "4"
-
-
-
 def check_os():
 	if not(platform.system() == "Windows" or platform.system() == "Linux"):
 		sys.exit("OS isn't supported")
-
 
 def get_latency(hostname):
 	try:
@@ -55,9 +48,9 @@ def check_threshold(hostname):
 
 if __name__ == "__main__":
 	check_os
-	parser = argparse.ArgumentParser()
-	parser.add_argument("-n", "--host", help="host to test")
-	parser.add_argument("-t", "--time", help="treshold time in miliseconds for average latency")
+	parser = argparse.ArgumentParser(description='Script to do changes in network based on latency calculation')
+	parser.add_argument("-H", "--host", help='Host to test')
+	parser.add_argument("-t", "--time", help='Threshold time in milliseconds for average latency')
 	args = parser.parse_args()
 	if args.host:
 		hostname = args.host
@@ -66,15 +59,14 @@ if __name__ == "__main__":
 	if args.time:
 		threshold = args.time
 	else:
-		sys.exit("Please provide average latency threshold in milideconds for more informatiion type filename -h")
+		sys.exit("Please provide average latency threshold in milliseconds for more informatiion type filename -h")
 
-
-threshold_value = check_threshold(hostname)
-if threshold_value == "1":
-	print("Latency is too high, need to change routing table")
-elif threshold_value == "2":
-	print("Everying is OK")
-elif threshold_value == "UNVISIBLE":
-	print("The {} is not Pingable".format(hostname))
-elif threshold_value == "Problem is detected":
-	print("Problem is detected")
+	threshold_value = check_threshold(hostname)
+	if threshold_value == "1":
+		print("Latency is too high, need to change routing table")
+	elif threshold_value == "2":
+		print("Test is passed with success")
+	elif threshold_value == "UNVISIBLE":
+		print("The {} is not Pingable".format(hostname))
+	elif threshold_value == "Problem is detected":
+		print("Problem is detected")
